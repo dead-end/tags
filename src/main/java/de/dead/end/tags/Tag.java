@@ -1,5 +1,7 @@
 package de.dead.end.tags;
 
+import org.apache.commons.text.StringEscapeUtils;
+
 public class Tag {
 
 	private static final String OPENING_TAG_START = "<";
@@ -42,9 +44,9 @@ public class Tag {
 	private final TagConfig tagConfig;
 
 	/**
-	 * The method is called from the {@link de.dead.end.tags.TagBuilder} to create
-	 * a root tag. Because the TagBilder is the only one that may call this method,
-	 * it is package private.
+	 * The method is called from the {@link de.dead.end.tags.TagBuilder} to create a
+	 * root tag. Because the TagBilder is the only one that may call this method, it
+	 * is package private.
 	 *
 	 * @param name
 	 *            The name of the root tag.
@@ -135,7 +137,7 @@ public class Tag {
 			throw new IllegalArgumentException(String.format(FMT_TAG_ALREADY_CLOSED, this.name));
 		}
 
-		add(" ", key, "=\"", doEscape ? dummyEscape(value) : value, "\"");
+		add(" ", key, "=\"", doEscape ? StringEscapeUtils.escapeXml11(value) : value, "\"");
 		return this;
 	}
 
@@ -176,7 +178,7 @@ public class Tag {
 			closeChild();
 
 			indentStart(this.indentLevel + 1);
-			add(doEscape ? dummyEscape(data) : data);
+			add(doEscape ? StringEscapeUtils.escapeXml11(data) : data);
 			indentEnd();
 
 			return this;
@@ -185,10 +187,6 @@ public class Tag {
 			throw new IllegalArgumentException(String.format(FMT_TAG_ALREADY_CLOSED, this.name));
 		}
 		}
-	}
-
-	private String dummyEscape(final String data) {
-		return data;
 	}
 
 	/**
