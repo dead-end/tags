@@ -5,9 +5,6 @@ import static org.junit.Assert.fail;
 
 import org.junit.Test;
 
-import de.dead.end.tags.Tag;
-import de.dead.end.tags.TagBuilder;
-
 public class TagsTest {
 
 	@Test
@@ -110,7 +107,19 @@ public class TagsTest {
 		final Tag ch1 = tag.createChild("CH1");
 		ch1.createChild("CH2").attr("key1", "value1").content("c1").content("c2");
 		ch1.createChild("CH3");
-		assertEquals("<ROOT><CH1><CH2 key1=\"value1\">c1</CH2></CH1></ROOT>", tag.finish());
+
+		final StringBuilder builder = new StringBuilder();
+		builder.append("<ROOT>").append(System.lineSeparator());
+		builder.append("  <CH1>").append(System.lineSeparator());
+		builder.append("    <CH2 key1=\"value1\">").append(System.lineSeparator());
+		builder.append("      c1").append(System.lineSeparator());
+		builder.append("      c2").append(System.lineSeparator());
+		builder.append("    </CH2>").append(System.lineSeparator());
+		builder.append("    <CH3/>").append(System.lineSeparator());
+		builder.append("  </CH1>").append(System.lineSeparator());
+		builder.append("</ROOT>").append(System.lineSeparator());
+
+		assertEquals(builder.toString(), tag.finish());
 
 	}
 }
