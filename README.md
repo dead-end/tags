@@ -41,13 +41,18 @@ rootTag.attr("key1", "value1");
 
 With a Tag you can create child tags:
 ```java
-final Tag rootTag = tagBuilder.createRootTag("root");
+final Tag rootTag = tagBuilder.createRootTag("root").setIndentSize(2);
 rootTag.createChild("root-child-1").createChild("root-child-1-child");
 final String xml = rootTag.createChild("root-child-2").finish;
 ```
 This will produce the following xml:
 ```xml
-<root><root-child-1><root-child-1-child/></root-child-1><root-child-2/></root>
+<root>
+  <root-child-1>
+    <root-child-1-child/>
+  </root-child-1>
+  <root-child-2/>
+</root>
 ```
 
 With a Tag you can add tag content, with an explicite escape flag or the default:
